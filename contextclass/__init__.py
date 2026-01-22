@@ -54,7 +54,7 @@ class Context[C, **P]:
 class _ContextGetter:
     def __get__[T: ContextClass, **P](
         self,
-        instance: T,
+        instance: T | None,
         owner: Callable[P, T],
     ) -> Context[T, P]:
         return context_of(owner or type(instance))
