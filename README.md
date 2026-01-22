@@ -2,7 +2,7 @@
 Alternative interface to context variables for practical scenarios.
 
 ```pycon
->>> from contextclass import ContextLocal, enter
+>>> from contextclass import ContextLocal, enter, current
 >>> from dataclasses import dataclass
 
 >>> @dataclass
@@ -11,9 +11,9 @@ Alternative interface to context variables for practical scenarios.
 
 >>> @enter(Foo, x=1)
 ... def f() -> None:
-...     print(Foo.current.x)
+...     print(current(Foo))
 >>> f()
-1
+Foo(x=1)
 
 >>> with Foo.context(x=2):
 ...     print(Foo.current.x)

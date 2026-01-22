@@ -19,9 +19,9 @@ class Context[C, **P]:
 
     >>> @enter(Foo, x=1)
     ... def f() -> None:
-    ...     print(Foo.current.x)
+    ...     print(current(Foo))
     >>> f()
-    1
+    Foo(x=1)
 
     >>> with Foo.context(x=2):
     ...     print(Foo.current.x)
@@ -67,8 +67,11 @@ class _CurrentInstanceGetter:
         instance: T | None,
         owner: Callable[P, T],
     ) -> T:
-        lens = owner if instance is None else instance
-        return lens.context.contextvar.get()  # type: ignore[possibly-missing-attribute]
+        return current(owner if instance is None else instance)  # type: ignore[invalid-argument-type]
+
+
+def current[T: ContextLocal](context_class: type[T]) -> T:
+    return context_of(context_class).contextvar.get()
 
 
 @cache
