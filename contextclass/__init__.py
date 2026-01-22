@@ -1,9 +1,8 @@
 from collections.abc import Callable, Generator
 from contextlib import contextmanager
 from contextvars import ContextVar
-from dataclasses import dataclass
 from functools import cache
-from typing import Any, ClassVar, dataclass_transform
+from typing import ClassVar
 
 
 class Context[C, **P]:
@@ -12,6 +11,9 @@ class Context[C, **P]:
 
     Use [`context_of`][] or subclass [`ContextClass`][] to make use of it.
 
+    >>> from dataclasses import dataclass
+
+    >>> @dataclass
     >>> class Foo(ContextClass):
     ...     x: int | None = None
 
@@ -86,11 +88,6 @@ def enter[**P, C](
     return context_of(context_class)._cm(**kwargs)
 
 
-@dataclass_transform(kw_only_default=True)
 class ContextClass:
     context: ClassVar[_ContextGetter] = _ContextGetter()
     current: ClassVar[_CurrentInstanceGetter] = _CurrentInstanceGetter()
-
-    def __init_subclass__(cls, **kwargs: Any) -> None:
-        kwargs["kw_only"] = True
-        dataclass(cls, **kwargs)

@@ -3,8 +3,10 @@ Alternative interface to context variables for practical scenarios.
 
 ```pycon
 >>> from contextclass import ContextClass, enter
+>>> from dataclasses import dataclass
 
->>> class Foo(ContextClass):
+>>> @dataclass
+... class Foo(ContextClass):
 ...     x: int | None = None
 
 >>> @enter(Foo, x=1)
