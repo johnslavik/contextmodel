@@ -2,6 +2,8 @@
 Alternative interface to context variables for practical scenarios.
 
 ```pycon
+>>> from contextclass import ContextClass
+
 >>> class Foo(ContextClass):
 ...     x: int | None = None
 
