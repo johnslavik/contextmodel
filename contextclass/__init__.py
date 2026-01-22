@@ -1,6 +1,6 @@
 from collections.abc import Callable, Generator
 from contextlib import contextmanager
-from contextvars import ContextVar
+from contextvars import ContextVar, Token
 from functools import cache, partial
 from typing import ClassVar
 
@@ -39,16 +39,16 @@ class Context[T: ContextLocal, **P]:
         self.constructor = constructor
         self.contextvar = contextvar
 
-    def _cm(self, *args: P.args, **kwargs: P.kwargs) -> Generator[T]:
+    def _cm(self, *args: P.args, **kwargs: P.kwargs) -> Generator[Token[T]]:
         value = self.constructor(*args, **kwargs)
         token = self.contextvar.set(value)
         try:
-            yield value
+            yield token
         finally:
             token.var.reset(token)
 
     @contextmanager
-    def __call__(self, *args: P.args, **kwargs: P.kwargs) -> Generator[T]:
+    def __call__(self, *args: P.args, **kwargs: P.kwargs) -> Generator[Token[T]]:
         return self._cm(*args, **kwargs)
 
 
