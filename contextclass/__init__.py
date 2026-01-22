@@ -88,6 +88,10 @@ def enter[**P, C](
     return context_of(context_class)._cm(**kwargs)
 
 
-class ContextClass:
+class ContextLocal:
     context: ClassVar[_ContextGetter] = _ContextGetter()
     current: ClassVar[_CurrentInstanceGetter] = _CurrentInstanceGetter()
+
+
+# Use by the preferred name.
+ContextClass = ContextLocal
