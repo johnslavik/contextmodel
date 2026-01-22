@@ -33,8 +33,11 @@ jobs:
       fail-fast: false
       # https://blog.jaraco.com/efficient-use-of-ci-resources/
       matrix:
-        version: ['3.13']
+        version: ['3.12', '3.14']
         platform: [ubuntu-latest, windows-latest]
+        include:
+        - version: '3.13'
+          platform: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
