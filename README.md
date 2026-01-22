@@ -9,7 +9,7 @@ Alternative interface to context variables for practical scenarios.
 
 >>> @enter(Foo, x=1)
 ... def f() -> None:
-...     print(Foo.current.x)  # 1
+...     print(Foo.current.x)
 >>> f()
 1
 
