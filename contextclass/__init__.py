@@ -74,7 +74,7 @@ def current[T: ContextLocal](context_class: type[T]) -> T:
     return context_of(context_class).contextvar.get()
 
 
-def supplier[T: ContextLocal](context_class: type[T]) -> Callable[[], T]:
+def from_context[T: ContextLocal](context_class: type[T]) -> Callable[[], T]:
     return partial(current, context_class)
 
 
