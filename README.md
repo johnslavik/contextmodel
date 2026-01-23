@@ -1,8 +1,8 @@
-# contextmodels
+# contextmodel
 Alternative interface to context variables for practical scenarios.
 
 ```pycon
->>> from contextmodels import ContextModel, context_create, context_get
+>>> from contextmodel import ContextModel, context_create, context_get
 >>> from dataclasses import dataclass
 
 >>> @dataclass
