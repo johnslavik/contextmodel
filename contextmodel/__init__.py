@@ -5,13 +5,14 @@ from functools import cache, partial
 from typing import ClassVar, Self, overload
 
 
-class ContextLifecycle[M](ContextDecorator):
+class ReusableContextLifecycle[M](ContextDecorator):
     def __init__(self, setter: Callable[[], Token[M]]) -> None:
         self._setter = setter
-        self._token = None
+        self._token = self._setter()
 
     def __enter__(self) -> Token[M]:
-        self._token = self._setter()
+        if self._token is None:
+            self._token = self._setter()
         return self._token
 
     def __exit__(self, *exc_info: object) -> None:
@@ -40,8 +41,8 @@ class Context[M, **P]:
             msg = f"expected a context_set({class_name}(...)) prior to this call"
             raise LookupError(msg) from None
 
-    def set(self, model: M) -> ContextLifecycle[M]:
-        return ContextLifecycle(lambda v=self.variable, m=model: v.set(m))
+    def set(self, model: M) -> ReusableContextLifecycle[M]:
+        return ReusableContextLifecycle(lambda v=self.variable, m=model: v.set(m))
 
     def create_api(self) -> "ContextAPI[M, P]":
         return CachedContextAPI(self)
@@ -85,10 +86,10 @@ class ContextAPI[M, **P]:
     def get(self) -> M:
         return self.manager.get_or_raise()
 
-    def set(self, model: M) -> ContextLifecycle[M]:
+    def set(self, model: M) -> ReusableContextLifecycle[M]:
         return self.manager.set(model)
 
-    def init(self, /, *args: P.args, **kwargs: P.kwargs) -> ContextLifecycle[M]:
+    def init(self, /, *args: P.args, **kwargs: P.kwargs) -> ReusableContextLifecycle[M]:
         return self.manager.set(self.manager.model_class(*args, **kwargs))
 
 
