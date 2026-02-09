@@ -42,7 +42,7 @@ class Context[M, **P]:
             raise LookupError(msg) from None
 
     def set(self, model: M) -> ReusableContextLifecycle[M]:
-        return ReusableContextLifecycle(lambda v=self.variable, m=model: v.set(m))
+        return ReusableContextLifecycle(partial(ContextVar.set, self.variable, model))
 
     def create_api(self) -> "ContextAPI[M, P]":
         return CachedContextAPI(self)
