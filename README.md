@@ -43,10 +43,4 @@ LookupError: expected a context_set(Foo(...)) prior to this call
 
 ```
 
-Works with type hints:
-
-<center>
-
-<img width="630" height="408" alt="image" src="https://github.com/user-attachments/assets/a482bcc7-88f3-4002-a34d-37c52c9fa725" />
-
-</center>
+Works with type hints.
