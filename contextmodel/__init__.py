@@ -110,7 +110,7 @@ def future_context_get[M](model_class: type[M]) -> Callable[[], M]:
 def context_set[M](
     model: M,
     context_class: type[Context] = Context,
-) -> ContextLifecycle[M]:
+) -> ReusableContextLifecycle[M]:
     context = context_class.for_class(model.__class__, check_cache=True)
     return context.set(model)
 
