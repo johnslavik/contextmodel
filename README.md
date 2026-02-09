@@ -20,8 +20,8 @@ Foo(x=1)
 
 >>> @dataclass
 ... class Foo:
-...     context: ClassVar[ContextAPIGetter] = ContextAPIGetter()
-...     current: ClassVar[ModelGetter] = ModelGetter()
+...     context = ContextAPIGetter()
+...     current = ModelGetter()
 ...     x: int | None = None
 
 >>> with Foo.context.init(x=2):
