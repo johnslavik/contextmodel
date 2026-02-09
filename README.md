@@ -15,12 +15,13 @@ Alternative interface to context variables for practical scenarios.
 >>> f()
 Foo(x=1)
 
->>> from contextmodel import ContextAPIGetter
+>>> from contextmodel import ContextAPIGetter, ModelGetter
 >>> from typing import ClassVar
 
 >>> @dataclass
 ... class Foo:
 ...     context: ClassVar[ContextAPIGetter] = ContextAPIGetter()
+...     current: ClassVar[ModelGetter] = ModelGetter()
 ...     x: int | None = None
 
 >>> with Foo.context.init(x=2):
@@ -34,7 +35,7 @@ Foo(x=2)
 Foo(x=3)
 
 >>> def oops() -> None:
-...     print(context_get(Foo))
+...     print(Foo.current)
 >>> oops()
 Traceback (most recent call last):
   ...
