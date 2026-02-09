@@ -15,10 +15,12 @@ Alternative interface to context variables for practical scenarios.
 >>> f()
 Foo(x=1)
 
->>> from contextmodel import WithContextAttribute
+>>> from contextmodel import ModelGetter
+>>> from typing import ClassVar
 
 >>> @dataclass
-... class Foo(WithContextAttribute):
+... class Foo:
+...     context: ClassVar[ModelGetter] = ModelGetter()
 ...     x: int | None = None
 
 >>> with Foo.context.init(x=2):
